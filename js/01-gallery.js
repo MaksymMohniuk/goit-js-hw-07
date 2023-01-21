@@ -24,13 +24,25 @@ const galleryMarkup = createGalleryMarkup(galleryItems);
 
 galleryMarkupContainer.insertAdjacentHTML('beforeend', galleryMarkup);
 
-galleryMarkupContainer.addEventListener('click', galleryMarkupContainerClick);
+galleryMarkupContainer.addEventListener('click', returnUrlOfBiggestImg);
 
-function galleryMarkupContainerClick(event) {
-    if(event.target.classlist.containes('gallery__link')){
-        return;
+function returnUrlOfBiggestImg(event) {
+  event.preventDefault();
+    if (event.target.nodeName !== 'IMG') {
+        return
+     }
+const bigImg = basicLightbox.create(`
+     <img src="${event.target.dataset.source}" width="800" height="600">
+  `)
+  bigImg.show();
+  
+  galleryMarkupContainer.addEventListener('keydown', (event) => {
+    if(event.code === 'Escape') {
+      bigImg.close();
     }
-
-    console.log(event.target.dataset.original);
+    });
 }
+
+
+
 
